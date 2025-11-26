@@ -12,20 +12,20 @@
         
         const BASE_IMAGE_URLS = {
             'Branca': [
-                '/celular-1.jpg',
-                '/celular-2.jpg',
-                '/celular-3.jpg',
-                '/celular-4.jpg',
-                '/celular-5.jpg',
-                '/celular-6.jpg'
+                'imagens/b1.webp',
+                'imagens/b2.webp',
+                'imagens/b3.webp',
+                'imagens/b3.webp',
+                'imagens/b3.webp',
+                'imagens/b3.webp',
             ],
             'Laranja': [
-                '/celular-1.jpg',
-                '/celular-2.jpg',
-                '/celular-3.jpg',
-                '/celular-4.jpg',
-                '/celular-5.jpg',
-                '/celular-6.jpg'
+                'imagens/l1.webp',
+                'imagens/l2.webp',
+                'imagens/l3.webp',
+                'imagens/l4.webp',
+                'imagens/b3.webp',
+                'imagens/b3.webp',
             ]
         };
         const TOTAL_IMAGES = 6;
@@ -468,14 +468,15 @@ Preço: R$ 119,99`;
                 document.getElementById('selected-color-name').textContent = value;
                 document.getElementById('selected-color-name-display').textContent = value;
                 
+                // Resetar o índice da imagem para 0 quando mudar de cor
+                selectedImageIndex = 0;
                 updateCarousel(0);
                 
-                document.querySelectorAll('.color-option').forEach(el => {
-                    el.style.borderColor = '';
-                    el.classList.remove('border-ml-blue');
+                // Atualizar a seleção visual das miniaturas
+                document.querySelectorAll('.color-thumbnail').forEach(img => {
+                    img.classList.remove('selected');
                 });
-                element.style.borderColor = 'var(--ml-blue)';
-                element.classList.add('border-ml-blue');
+                element.classList.add('selected');
             } else if (type === 'memory') {
                 selectedMemory = value;
                 
@@ -838,6 +839,36 @@ Preço: R$ 119,99`;
         .cart-button-wrapper {
             position: relative;
         }
+        
+        /* Estilos para as miniaturas de cor */
+        .color-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .color-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        
+        .color-thumbnail.selected {
+            border: 3px solid var(--ml-blue);
+            box-shadow: 0 0 0 1px white;
+        }
+        
+        .color-thumbnail-wrapper {
+            display: inline-block;
+            margin-right: 12px;
+            position: relative;
+        }
+        
+        .color-thumbnail-wrapper:last-child {
+            margin-right: 0;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
@@ -898,7 +929,7 @@ Preço: R$ 119,99`;
                 <button onclick="navigateImage(-1)" class="carousel-nav-btn absolute left-2 top-1/2 transform -translate-y-1/2 z-10 text-gray-700 bg-white/50 p-2 rounded-full hover:bg-white transition-all duration-300 shadow-md">
                    <i class="fas fa-chevron-left"></i>
                 </button>
-                <img id="product-image" src="https://placehold.co/400x400/FFFFFF/000000?text=Branca+Frente" alt="iPhone 17" class="max-w-[80%] h-auto object-contain transition-opacity duration-300">
+                <img id="product-image" src="imagens/b1.webp" alt="iPhone 17" class="max-w-[80%] h-auto object-contain transition-opacity duration-300">
                 <button onclick="navigateImage(1)" class="carousel-nav-btn absolute right-2 top-1/2 transform -translate-y-1/2 z-10 text-gray-700 bg-white/50 p-2 rounded-full hover:bg-white transition-all duration-300 shadow-md">
                     <i class="fas fa-chevron-right"></i>
                 </button>
@@ -910,12 +941,24 @@ Preço: R$ 119,99`;
 
         <div class="ml-card">
             <h2 class="text-sm font-medium mb-3">Cor: <span class="font-bold text-gray-800" id="selected-color-name-display">Branca</span></h2>
-            <div class="flex space-x-3">
-                <div class="color-option border-4 border-ml-blue p-[2px] rounded-lg cursor-pointer transition-all duration-200" onclick="updateProductSelection('color', 'Branca', this)">
-                    <img src="https://placehold.co/50x50/FFF/000?text=Branca" class="rounded-md" title="Branca">
+            <div class="flex">
+                <div class="color-thumbnail-wrapper">
+                    <img 
+                        src="imagens/b1.webp" 
+                        alt="iPhone na cor Branca" 
+                        class="color-thumbnail selected" 
+                        onclick="updateProductSelection('color', 'Branca', this)"
+                        data-color="Branca"
+                    >
                 </div>
-                <div class="color-option p-[2px] rounded-lg cursor-pointer transition-all duration-200" onclick="updateProductSelection('color', 'Laranja', this)">
-                    <img src="https://placehold.co/50x50/FF8C00/fff?text=Laranja" class="rounded-md" title="Laranja">
+                <div class="color-thumbnail-wrapper">
+                    <img 
+                        src="imagens/l1.webp" 
+                        alt="iPhone na cor Laranja" 
+                        class="color-thumbnail" 
+                        onclick="updateProductSelection('color', 'Laranja', this)"
+                        data-color="Laranja"
+                    >
                 </div>
             </div>
         </div>
